@@ -421,11 +421,16 @@ inline std::string type_class_string(DataTypeClass tclass) {
 
 }  // unnamed namespace
 
+template <typename T> struct CreateDataTypeHelper
+{
+    static std::enable_if_t<sizeof(AtomicType<T>) == sizeof(AtomicType<T>), DataType>
+        operator()() { return AtomicType<T>(); }
+};
 
 /// \brief Create a DataType instance representing type T
 template <typename T>
 inline DataType create_datatype() {
-    return AtomicType<T>();
+    return CreateDataTypeHelper<T>::operator()();
 }
 
 

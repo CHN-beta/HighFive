@@ -19,7 +19,7 @@ if(HDF5_IS_PARALLEL)
 
   ## parallel MPI tests
   add_executable(tests_parallel_bin ${tests_parallel_src})
-  target_link_libraries(tests_parallel_bin HighFive HighFiveWarnings HighFiveFlags Catch2::Catch2)
+  target_link_libraries(tests_parallel_bin HighFive HighFiveWarnings Catch2::Catch2)
   target_link_libraries(tests_parallel_bin HighFiveOptionalDependencies)
 
   # We need to patch in a call to `mpirun` or equivalent when using
@@ -51,7 +51,11 @@ foreach(PUBLIC_HEADER ${public_headers})
       continue()
     endif()
 
-    if(PUBLIC_HEADER STREQUAL "highfive/boost.hpp" AND NOT HIGHFIVE_TEST_BOOST)
+    if(PUBLIC_HEADER MATCHES "highfive/boost.*.hpp" AND NOT HIGHFIVE_TEST_BOOST)
+      continue()
+    endif()
+
+    if(PUBLIC_HEADER STREQUAL "highfive/boost_span.hpp" AND NOT HIGHFIVE_TEST_BOOST_SPAN)
       continue()
     endif()
 

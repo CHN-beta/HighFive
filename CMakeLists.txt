@@ -2,7 +2,12 @@ cmake_minimum_required(VERSION 3.13)
 cmake_policy(VERSION 3.13)
 
 project(HighFive VERSION 3.0.0)
-set(HIGHFIVE_VERSION_PRERELEASE 1)
+set(HIGHFIVE_VERSION_PRERELEASE 2)
+
+message(WARNING "=================================================================\n"
+                "HighFive development moved to:\n"
+                "  github.com/highfive-devs/highfive\n"
+                "=================================================================")
 
 # Configure HighFive
 # ------------------
@@ -59,12 +64,13 @@ option(HIGHFIVE_UNIT_TESTS "Compile unit-tests" ${HIGHFIVE_EXTRAS_DEFAULT})
 option(HIGHFIVE_EXAMPLES "Compile examples" ${HIGHFIVE_EXTRAS_DEFAULT})
 option(HIGHFIVE_BUILD_DOCS "Build documentation" ${HIGHFIVE_EXTRAS_DEFAULT})
 
-option(HIGHFIVE_TEST_SPAN "Enable std::span testing, requires C++20" ${HIGHFIVE_TEST_SPAN_DEFAULT})
-option(HIGHFIVE_TEST_BOOST "Enable Boost testing" OFF)
-option(HIGHFIVE_TEST_EIGEN "Enable Eigen testing" OFF)
-option(HIGHFIVE_TEST_OPENCV "Enable OpenCV testing" OFF)
-option(HIGHFIVE_TEST_XTENSOR "Enable xtensor testing" OFF)
-option(HIGHFIVE_TEST_HALF_FLOAT "Enable half-precision floats" OFF)
+option(HIGHFIVE_TEST_SPAN "Enable testing std::span, requires C++20" ${HIGHFIVE_TEST_SPAN_DEFAULT})
+option(HIGHFIVE_TEST_BOOST "Enable testing Boost features" OFF)
+option(HIGHFIVE_TEST_BOOST_SPAN "Additionally, enable testing `boost::span`" OFF)
+option(HIGHFIVE_TEST_EIGEN "Enable testing Eigen" OFF)
+option(HIGHFIVE_TEST_OPENCV "Enable testing OpenCV" OFF)
+option(HIGHFIVE_TEST_XTENSOR "Enable testing xtensor" OFF)
+option(HIGHFIVE_TEST_HALF_FLOAT "Enable testing half-precision floats" OFF)
 
 # TODO remove entirely.
 option(HIGHFIVE_HAS_CONCEPTS "Print readable compiler errors w/ C++20 concepts" OFF)
@@ -156,6 +162,7 @@ install(FILES
 
 if(HIGHFIVE_EXAMPLES OR HIGHFIVE_UNIT_TESTS)
   include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/HighFiveWarnings.cmake)
+  include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/HighFiveFlags.cmake)
   include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/HighFiveOptionalDependencies.cmake)
 endif()
 
